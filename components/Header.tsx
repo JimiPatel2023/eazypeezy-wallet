@@ -74,7 +74,7 @@ const Header = () => {
 								</div>
 							</SheetTrigger>
 							<SheetContent side={"bottom"} className="h-screen overflow-y-scroll overflow-x-hidden">
-								<SheetHeader className="mt-8">
+								<SheetHeader className="mt-10">
 									<SheetTitle>
 										<h1 className="text-2xl text-center">Wallets (Account {accounts.default_account + 1})</h1>
 									</SheetTitle>
