@@ -1,5 +1,8 @@
+"use client";
 import Header from "@/components/Header";
 import { ArrowRightLeft, DollarSign, Plus, Send } from "lucide-react";
+import { useWalletContext } from "./context/AppContext";
+import { Oval } from "react-loader-spinner";
 
 export default function Home() {
 	const button_data = [
@@ -20,8 +23,10 @@ export default function Home() {
 			text: "Buy",
 		},
 	];
- 
-	return (
+
+	const { accounts, wallets } = useWalletContext();
+
+	return accounts !== null && wallets !== null ? (
 		<div className="flex flex-col justify-center items-center p-1">
 			<Header />
 			<h1 className="text-4xl font-bold mt-8">$1400.34</h1>
@@ -38,6 +43,10 @@ export default function Home() {
 					);
 				})}
 			</div>
+		</div>
+	) : (
+		<div className="flex w-full justify-center items-center mt-20">
+			<Oval visible={true} height="80" width="80" color="#4fa94d" ariaLabel="oval-loading" wrapperStyle={{}} wrapperClass="" />
 		</div>
 	);
 }
