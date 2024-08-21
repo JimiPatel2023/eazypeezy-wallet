@@ -20,7 +20,7 @@ const Header = () => {
 	return (
 		accounts &&
 		wallets && (
-			<nav className="w-full px-2 flex justify-between items-center">
+			<nav className="w-full px-0 flex justify-between items-center">
 				<DropdownMenu dir="ltr" modal={false}>
 					<DropdownMenuTrigger asChild>
 						<Avatar className="cursor-pointer hover:bg-gray-800 select-none m-2">
@@ -79,7 +79,7 @@ const Header = () => {
 										<h1 className="text-2xl text-center">Wallets (Account {accounts.default_account + 1})</h1>
 									</SheetTitle>
 								</SheetHeader>
-								<div className="pt-10 flex flex-col justify-center items-center flex-wrap gap-2 w-full p-10">
+								<div className="pt-10 flex flex-col justify-center items-center flex-wrap gap-2 w-full py-10">
 									{accounts.details[accounts.default_account].wallets.map((wallet, index) => {
 										const found_wallet = wallets.find((val) => val.wallet_number === wallet);
 
@@ -88,7 +88,7 @@ const Header = () => {
 										}
 
 										return (
-											<div key={index} className={`p-3 bg-gray-800 max-w-3xl rounded-lg cursor-pointer hover:bg-gray-900 ${wallet === accounts.details[accounts.default_account].default_wallet ? "border-2 border-blue-500" : ""} w-full`} onClick={(e) => {change_default_wallet(wallet);}}>
+											<div key={index} className={`p-3 bg-gray-800 max-w-3xl rounded-lg cursor-pointer hover:bg-gray-900 ${wallet === accounts.details[accounts.default_account].default_wallet ? "border-2 border-blue-500" : ""} w-full`} onClick={(e) => {wallet !== accounts.details[accounts.default_account].default_wallet && change_default_wallet(wallet);}}>
 												<div className="flex justify-between pb-3 pl-1 items-center">
 													<h1 className="text-2xl font-semibold">Wallet {wallet + 1}</h1>
 													<div className="p-2 cursor-pointer hover:bg-gray-600 rounded-full">
@@ -156,13 +156,13 @@ const Header = () => {
 							</SheetContent>
 						</Sheet>
 
-						<HoverCard openDelay={1}>
-							<HoverCardTrigger>
+						<DropdownMenu modal={false} >
+							<DropdownMenuTrigger>
 								<Copy className="cursor-pointer" size={18} />
-							</HoverCardTrigger>
-							<HoverCardContent className="p-4 rounded-lg shadow-lg w-80">
-								<div
-									className="flex items-center justify-between gap-6 group cursor-pointer mb-3"
+							</DropdownMenuTrigger>
+							<DropdownMenuContent className="rounded-lg shadow-lg w-80">
+								<DropdownMenuItem
+									className="p-2 flex items-center justify-between gap-6 group cursor-pointer mb-1"
 									onClick={(e) => {
 										copy_text(wallets[accounts.details[accounts.default_account].default_wallet].sol_wallet.public_key);
 										toast.info("Copied!", {
@@ -184,9 +184,9 @@ const Header = () => {
 									<div className="flex items-center group-hover:text-gray-400">
 										<p>{format_public_key(wallets[accounts.details[accounts.default_account].default_wallet].sol_wallet.public_key)}</p> <Copy size={16} />
 									</div>
-								</div>
-								<div
-									className="flex items-center justify-between gap-6 group cursor-pointer"
+								</DropdownMenuItem>
+								<DropdownMenuItem
+									className="p-2 flex items-center justify-between gap-6 group cursor-pointer"
 									onClick={(e) => {
 										copy_text(wallets[accounts.details[accounts.default_account].default_wallet].eth_wallet.public_key);
 										toast.info("Copied!", {
@@ -208,9 +208,9 @@ const Header = () => {
 									<div className="flex items-center group-hover:text-gray-400">
 										<p>{format_public_key(wallets[accounts.details[accounts.default_account].default_wallet].eth_wallet.public_key)}</p> <Copy size={16} />
 									</div>
-								</div>
-							</HoverCardContent>
-						</HoverCard>
+								</DropdownMenuItem>
+							</DropdownMenuContent>
+						</DropdownMenu>
 					</div>
 				)}
 				<div className="cursor-pointer rounded-full hover:bg-gray-800 p-2">
