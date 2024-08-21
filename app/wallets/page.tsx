@@ -39,7 +39,7 @@ const Wallets = () => {
 										onClick={(e) => {
 											copy_text(found_wallet.sol_wallet.public_key);
 											toast.info("Copied!", {
-												position: "top-right",
+												position: "bottom-right",
 												autoClose: 5000,
 												hideProgressBar: true,
 												closeOnClick: true,
@@ -63,7 +63,7 @@ const Wallets = () => {
 										onClick={(e) => {
 											copy_text(found_wallet.eth_wallet.public_key);
 											toast.info("Copied!", {
-												position: "top-right",
+												position: "bottom-right",
 												autoClose: 5000,
 												hideProgressBar: true,
 												closeOnClick: true,

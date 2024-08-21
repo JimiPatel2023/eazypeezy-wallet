@@ -75,8 +75,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 				router.push("/add-account");
 				localStorage.clear();
 				toast.error("Unexpected error!", {
-					position: "top-right",
-					autoClose: 5000,
+					position: "bottom-right",
+					autoClose: 2,
 					hideProgressBar: true,
 					closeOnClick: true,
 					pauseOnHover: true,
@@ -105,7 +105,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 			);
             setUpdate(prev=> prev+1)
             toast.success("New Wallet Created!", {
-                position: "top-right",
+                position: "bottom-right",
                 autoClose: 5000,
                 hideProgressBar: true,
                 closeOnClick: true,
@@ -122,7 +122,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 			localStorage.setItem("accounts", JSON.stringify({ ...accounts, default_account: index }));
             setUpdate(prev=>prev+1)
             toast.info("Default account changed!", {
-                position: "top-right",
+                position: "bottom-right",
                 autoClose: 5000,
                 hideProgressBar: true,
                 closeOnClick: true,
@@ -145,7 +145,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
             }), }));
             setUpdate(prev=>prev+1)
             toast.info("Default wallet changed!", {
-                position: "top-right",
+                position: "bottom-right",
                 autoClose: 5000,
                 hideProgressBar: true,
                 closeOnClick: true,
@@ -185,7 +185,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 		}
         setUpdate(prev=>prev+1)
         toast.success("New account created!", {
-            position: "top-right",
+            position: "bottom-right",
             autoClose: 5000,
             hideProgressBar: true,
             closeOnClick: true,

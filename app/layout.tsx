@@ -23,7 +23,7 @@ export default function RootLayout({
 			<body className={`${inter.className} p-3 overflow-x-hidden`}>
 				<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
 					<WalletProvider>{children}</WalletProvider>
-					<ToastContainer />
+					<ToastContainer limit={1}/>
 				</ThemeProvider>
 			</body>
 		</html>

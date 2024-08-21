@@ -106,7 +106,7 @@ const Header = () => {
 													<div className="flex items-center hover:text-gray-400" onClick={(e) => {
 														copy_text(found_wallet.sol_wallet.public_key);
 														toast.info("Copied!", {
-															position: "top-right",
+															position: "bottom-right",
 															autoClose: 5000,
 															hideProgressBar: true,
 															closeOnClick: true,
@@ -129,7 +129,7 @@ const Header = () => {
 													<div className="flex items-center hover:text-gray-400" onClick={(e) => {
 														copy_text(found_wallet.eth_wallet.public_key);
 														toast.info("Copied!", {
-															position: "top-right",
+															position: "bottom-right",
 															autoClose: 5000,
 															hideProgressBar: true,
 															closeOnClick: true,
@@ -166,7 +166,7 @@ const Header = () => {
 									onClick={(e) => {
 										copy_text(wallets[accounts.details[accounts.default_account].default_wallet].sol_wallet.public_key);
 										toast.info("Copied!", {
-											position: "top-right",
+											position: "bottom-right",
 											autoClose: 5000,
 											hideProgressBar: true,
 											closeOnClick: true,
@@ -190,7 +190,7 @@ const Header = () => {
 									onClick={(e) => {
 										copy_text(wallets[accounts.details[accounts.default_account].default_wallet].eth_wallet.public_key);
 										toast.info("Copied!", {
-											position: "top-right",
+											position: "bottom-right",
 											autoClose: 5000,
 											hideProgressBar: true,
 											closeOnClick: true,
