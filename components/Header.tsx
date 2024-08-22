@@ -107,7 +107,7 @@ const Header = () => {
 														copy_text(found_wallet.sol_wallet.public_key);
 														toast.info("Copied!", {
 															position: "bottom-right",
-															autoClose: 5000,
+															autoClose: 1500,
 															hideProgressBar: true,
 															closeOnClick: true,
 															pauseOnHover: true,
@@ -130,7 +130,7 @@ const Header = () => {
 														copy_text(found_wallet.eth_wallet.public_key);
 														toast.info("Copied!", {
 															position: "bottom-right",
-															autoClose: 5000,
+															autoClose: 1500,
 															hideProgressBar: true,
 															closeOnClick: true,
 															pauseOnHover: true,
@@ -167,7 +167,7 @@ const Header = () => {
 										copy_text(wallets[accounts.details[accounts.default_account].default_wallet].sol_wallet.public_key);
 										toast.info("Copied!", {
 											position: "bottom-right",
-											autoClose: 5000,
+											autoClose: 1500,
 											hideProgressBar: true,
 											closeOnClick: true,
 											pauseOnHover: true,
@@ -191,7 +191,7 @@ const Header = () => {
 										copy_text(wallets[accounts.details[accounts.default_account].default_wallet].eth_wallet.public_key);
 										toast.info("Copied!", {
 											position: "bottom-right",
-											autoClose: 5000,
+											autoClose: 1500,
 											hideProgressBar: true,
 											closeOnClick: true,
 											pauseOnHover: true,

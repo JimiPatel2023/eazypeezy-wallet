@@ -19,7 +19,7 @@ const WordGridCard: React.FC<WordGridCardProps> = ({ words, whole_string }) => {
 				copy_text(whole_string);
 				toast.info("Copied!", {
 					position: "bottom-right",
-					autoClose: 5000,
+					autoClose: 1500,
 					hideProgressBar: true,
 					closeOnClick: true,
 					pauseOnHover: true,
