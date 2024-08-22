@@ -32,7 +32,7 @@ const AddAccountPage = () => {
 		<div className="flex flex-col items-center w-full pt-16 justify-between gap-40">
 			<div className="flex flex-col gap-10 items-center justify-center w-full">
 				<Image src={"/assets/images/logo.jpg"} alt="EazyPeezy Logo" height={80} width={80} className="rounded-full" />
-				<div className="flex flex-col justify-center items-center gap-3">
+				<div className="flex flex-col justify-center items-center gap-3 text-center">
 					<h1 className="font-bold text-4xl text-gray-200">
 						Welcome to <span className="text-[#3061a2]">EazyPeezy</span> Wallet
 					</h1>

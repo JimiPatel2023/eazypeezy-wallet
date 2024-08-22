@@ -24,7 +24,7 @@ const RemoveWallet = ({ wallet_number, setClose }: { wallet_number: number, setC
 					<DrawerTitle>Remove Wallet</DrawerTitle>
 				</DrawerHeader>
                 <TriangleAlert size={50} className="mt-2 text-red-400" />
-                <h1 className="text-2xl font-semibold mt-3">Are you sure you want to remove this wallet?</h1>
+                <h1 className="text-2xl font-semibold mt-3 text-center">Are you sure you want to remove this wallet?</h1>
                 <p className="text-base mt-0 text-gray-400 p-4 text-center">Removing from the account will not delete the wallet’s contents. It will still be available by importing your secret recovery phrase.</p>
 
                 <div className="absolute bottom-2 w-full p-3 flex gap-2 justify-center items-center"><DrawerClose className="w-full"><Button variant={"secondary"} className="w-full p-3">Close</Button></DrawerClose><DrawerClose className="w-full" onClick={(e) => {setClose(true); remove_wallet(wallet_number);}}><Button variant={"destructive"} className="w-full p-3">Remove</Button></DrawerClose></div>

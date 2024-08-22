@@ -1,5 +1,5 @@
 "use client";
-import { get_eth_sol_wallets } from "@/lib/serverActions";
+import { get_eth_sol_wallets, get_wallet_balance } from "@/lib/serverActions";
 import { Accounts } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { createContext, useState, useEffect, useContext, Dispatch, SetStateAction } from "react";
@@ -25,6 +25,10 @@ const WalletContext = createContext<{
     create_new_account:(SRP: string) => void;
     change_default_wallet:(index: number) => void;
 	remove_wallet:(wallet_number: number) => void;
+	wallet_balance: {
+		eth_balance: number;
+		sol_balance: number;
+	} | null
 }>({
 	accounts: null,
 	wallets: null,
@@ -33,6 +37,7 @@ const WalletContext = createContext<{
     create_new_account:(SRP) => {},
     change_default_wallet:(index) => {},
 	remove_wallet:(wallet_number) => {},
+	wallet_balance:null
 });
 
 export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
@@ -54,6 +59,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 		  }[]
 		| null
 	>(null);
+
+	const [wallet_balance, set_wallet_balance] = useState<{eth_balance:number, sol_balance:number} | null>(null)
 
 	const get_wallets = (accounts_object: Accounts) => {
 		const wallet = [];
@@ -88,6 +95,22 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 			}
 		}
 	}, [router, update]);
+
+	const set_balance = async ({eth_public_key, sol_public_key}:{eth_public_key:string, sol_public_key:string}) => {
+		const balance = await get_wallet_balance({eth_public_key, sol_public_key})
+		if(balance) {
+			set_wallet_balance({eth_balance:balance.eth_balance, sol_balance:balance.sol_balance})
+		}
+	}
+
+	useEffect(() => {
+		if(wallets && accounts) {
+			const current_wallet = wallets.find(v=> v.wallet_number == accounts.details[accounts.default_account].default_wallet)
+			if(current_wallet) {
+				set_balance({eth_public_key:current_wallet.eth_wallet.public_key, sol_public_key:current_wallet.sol_wallet.public_key})
+			}
+		}
+	}, [wallets, accounts])
 
 	const create_new_wallet = (wallet_number: number) => {
 		if (accounts) {
@@ -244,7 +267,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 		}
 	}
 
-	return <WalletContext.Provider value={{ accounts, wallets, change_default_account, create_new_wallet, create_new_account, change_default_wallet, remove_wallet }}>{children}</WalletContext.Provider>;
+	return <WalletContext.Provider value={{ accounts, wallets, change_default_account, create_new_wallet, create_new_account, change_default_wallet, remove_wallet, wallet_balance }}>{children}</WalletContext.Provider>;
 };
 
 export const useWalletContext = () => {
