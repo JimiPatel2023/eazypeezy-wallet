@@ -3,7 +3,7 @@ import { copy_text, format_public_key } from "@/lib/utils";
 import React, { useState } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Check, Copy, Github, Plus, Settings } from "lucide-react";
+import { Check, Copy, Github, Plus, Settings, X } from "lucide-react";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { SiEthereum, SiSolana } from "react-icons/si";
 import { toast } from "react-toastify";
@@ -13,6 +13,7 @@ import { HiChevronDown, HiEllipsisVertical } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import CreateWallet from "./CreateWallet";
+import WalletSettingsSheet from "./WalletSettingsSheet";
 
 const Header = () => {
 	const { accounts, change_default_account, wallets, create_new_wallet, change_default_wallet } = useWalletContext();
@@ -67,8 +68,7 @@ const Header = () => {
 
 						<Sheet modal={false}>
 							<SheetTrigger asChild className=" border-x border-gray-600">
-								<div
-									className="flex justify-center items-center gap-2 cursor-pointer hover:bg-gray-800 px-2 py-1 select-none">
+								<div className="flex justify-center items-center gap-2 cursor-pointer hover:bg-gray-800 px-2 py-1 select-none">
 									<h3 className="text-base">{`Wallet ${accounts.details[accounts.default_account].default_wallet + 1}`}</h3>
 									<HiChevronDown />
 								</div>
@@ -79,6 +79,10 @@ const Header = () => {
 										<h1 className="text-2xl text-center">Wallets (Account {accounts.default_account + 1})</h1>
 									</SheetTitle>
 								</SheetHeader>
+								<SheetClose className="fixed left-5 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
+									<X className="h-6 w-6" />
+									<span className="sr-only">Close</span>
+								</SheetClose>
 								<div className="pt-10 flex flex-col justify-center items-center flex-wrap gap-2 w-full py-10">
 									{accounts.details[accounts.default_account].wallets.map((wallet, index) => {
 										const found_wallet = wallets.find((val) => val.wallet_number === wallet);
@@ -88,56 +92,61 @@ const Header = () => {
 										}
 
 										return (
-											<div key={index} className={`p-3 bg-gray-800 max-w-3xl rounded-lg cursor-pointer hover:bg-gray-900 ${wallet === accounts.details[accounts.default_account].default_wallet ? "border-2 border-blue-500" : ""} w-full`} onClick={(e) => {wallet !== accounts.details[accounts.default_account].default_wallet && change_default_wallet(wallet);}}>
+											<div
+												key={index}
+												className={`p-3 bg-gray-800 max-w-3xl rounded-lg cursor-pointer hover:bg-gray-900 ${wallet === accounts.details[accounts.default_account].default_wallet ? "border-2 border-blue-500" : ""} w-full`}
+												onClick={(e) => {
+													wallet !== accounts.details[accounts.default_account].default_wallet && change_default_wallet(wallet);
+												}}>
 												<div className="flex justify-between pb-3 pl-1 items-center">
 													<h1 className="text-2xl font-semibold">Wallet {wallet + 1}</h1>
-													<div className="p-2 cursor-pointer hover:bg-gray-600 rounded-full">
-														<HiEllipsisVertical size={26} />
-													</div>
+													<WalletSettingsSheet wallet_number={wallet} />
 												</div>
-												<div
-													className="flex items-center justify-between gap-6 group mb-3">
+												<div className="flex items-center justify-between gap-6 group mb-3">
 													<div className="flex items-center gap-2">
 														<div className="p-2 bg-white rounded-lg">
 															<SiSolana color="black" size={12} />
 														</div>
 														<p className="text-base">Solana</p>
 													</div>
-													<div className="flex items-center hover:text-gray-400" onClick={(e) => {
-														copy_text(found_wallet.sol_wallet.public_key);
-														toast.info("Copied!", {
-															position: "bottom-right",
-															autoClose: 1500,
-															hideProgressBar: true,
-															closeOnClick: true,
-															pauseOnHover: true,
-															draggable: true,
-															theme: "dark",
-														});
-													}}>
+													<div
+														className="flex items-center hover:text-gray-400"
+														onClick={(e) => {
+															copy_text(found_wallet.sol_wallet.public_key);
+															toast.info("Copied!", {
+																position: "bottom-right",
+																autoClose: 1500,
+																hideProgressBar: true,
+																closeOnClick: true,
+																pauseOnHover: true,
+																draggable: true,
+																theme: "dark",
+															});
+														}}>
 														<p>{format_public_key(found_wallet.sol_wallet.public_key)}</p> <Copy size={16} />
 													</div>
 												</div>
-												<div
-													className="flex items-center justify-between gap-6 group">
+												<div className="flex items-center justify-between gap-6 group">
 													<div className="flex items-center gap-2">
 														<div className="p-2 bg-white rounded-lg">
 															<SiEthereum color="black" size={12} />
 														</div>
 														<p className="text-base">Ethereum</p>
 													</div>
-													<div className="flex items-center hover:text-gray-400" onClick={(e) => {
-														copy_text(found_wallet.eth_wallet.public_key);
-														toast.info("Copied!", {
-															position: "bottom-right",
-															autoClose: 1500,
-															hideProgressBar: true,
-															closeOnClick: true,
-															pauseOnHover: true,
-															draggable: true,
-															theme: "dark",
-														});
-													}}>
+													<div
+														className="flex items-center hover:text-gray-400"
+														onClick={(e) => {
+															copy_text(found_wallet.eth_wallet.public_key);
+															toast.info("Copied!", {
+																position: "bottom-right",
+																autoClose: 1500,
+																hideProgressBar: true,
+																closeOnClick: true,
+																pauseOnHover: true,
+																draggable: true,
+																theme: "dark",
+															});
+														}}>
 														<p>{format_public_key(found_wallet.eth_wallet.public_key)}</p> <Copy size={16} />
 													</div>
 												</div>
@@ -156,7 +165,7 @@ const Header = () => {
 							</SheetContent>
 						</Sheet>
 
-						<DropdownMenu modal={false} >
+						<DropdownMenu modal={false}>
 							<DropdownMenuTrigger>
 								<Copy className="cursor-pointer" size={18} />
 							</DropdownMenuTrigger>
@@ -164,7 +173,7 @@ const Header = () => {
 								<DropdownMenuItem
 									className="p-2 flex items-center justify-between gap-6 group cursor-pointer mb-1"
 									onClick={(e) => {
-										copy_text(wallets[accounts.details[accounts.default_account].default_wallet].sol_wallet.public_key);
+										copy_text(wallets.find(v=>{return v.wallet_number===accounts.details[accounts.default_account].default_wallet})!.sol_wallet.public_key);
 										toast.info("Copied!", {
 											position: "bottom-right",
 											autoClose: 1500,
@@ -182,13 +191,13 @@ const Header = () => {
 										<p className="text-base">Solana</p>
 									</div>
 									<div className="flex items-center group-hover:text-gray-400">
-										<p>{format_public_key(wallets[accounts.details[accounts.default_account].default_wallet].sol_wallet.public_key)}</p> <Copy size={16} />
+										<p>{format_public_key(wallets.find(v=>{return v.wallet_number===accounts.details[accounts.default_account].default_wallet})!.sol_wallet.public_key)}</p> <Copy size={16} />
 									</div>
 								</DropdownMenuItem>
 								<DropdownMenuItem
 									className="p-2 flex items-center justify-between gap-6 group cursor-pointer"
 									onClick={(e) => {
-										copy_text(wallets[accounts.details[accounts.default_account].default_wallet].eth_wallet.public_key);
+										copy_text(wallets.find(v=>{return v.wallet_number===accounts.details[accounts.default_account].default_wallet})!.eth_wallet.public_key);
 										toast.info("Copied!", {
 											position: "bottom-right",
 											autoClose: 1500,
@@ -206,7 +215,7 @@ const Header = () => {
 										<p className="text-base">Ethereum</p>
 									</div>
 									<div className="flex items-center group-hover:text-gray-400">
-										<p>{format_public_key(wallets[accounts.details[accounts.default_account].default_wallet].eth_wallet.public_key)}</p> <Copy size={16} />
+										<p>{format_public_key(wallets.find(v=>{return v.wallet_number===accounts.details[accounts.default_account].default_wallet})!.eth_wallet.public_key)}</p> <Copy size={16} />
 									</div>
 								</DropdownMenuItem>
 							</DropdownMenuContent>

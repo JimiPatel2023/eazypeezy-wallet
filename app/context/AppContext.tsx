@@ -2,7 +2,7 @@
 import { get_eth_sol_wallets } from "@/lib/serverActions";
 import { Accounts } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useState, useEffect, useContext, Dispatch, SetStateAction } from "react";
 import { toast } from "react-toastify";
 
 const WalletContext = createContext<{
@@ -23,14 +23,16 @@ const WalletContext = createContext<{
 	create_new_wallet: (wallet_number: number) => void | null;
 	change_default_account: (index: number) => void | null;
     create_new_account:(SRP: string) => void;
-    change_default_wallet:(index: number) => void
+    change_default_wallet:(index: number) => void;
+	remove_wallet:(wallet_number: number) => void;
 }>({
 	accounts: null,
 	wallets: null,
 	change_default_account: (index) => {},
 	create_new_wallet: (wallet_number) => {},
     create_new_account:(SRP) => {},
-    change_default_wallet:(index) => {}
+    change_default_wallet:(index) => {},
+	remove_wallet:(wallet_number) => {},
 });
 
 export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
@@ -195,7 +197,54 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
         });
     }
 
-	return <WalletContext.Provider value={{ accounts, wallets, change_default_account, create_new_wallet, create_new_account, change_default_wallet }}>{children}</WalletContext.Provider>;
+	const remove_wallet = (wallet_number:number) => {
+		if (accounts) {
+			localStorage.clear();
+			const current_account = accounts.details[accounts.default_account]
+			if(current_account.wallets.length === 1) {
+				const new_accounts = accounts.details.filter((v,i) => i !== accounts.default_account)
+				if(new_accounts.length > 0) {
+					localStorage.setItem(
+						"accounts",
+						JSON.stringify({
+							details: new_accounts,
+							default_account:[new_accounts.length-1]
+						})
+					);
+				}
+			} else {
+				const new_wallets = current_account.wallets.filter(v => v !== wallet_number);
+				console.log(new_wallets)
+				const new_account = {...current_account, wallets:new_wallets, default_wallet:new_wallets[0]}
+				localStorage.setItem(
+					"accounts",
+					JSON.stringify({
+						...accounts,
+						details: accounts.details.map((val, index) => {
+							if (index === accounts.default_account) {
+								return new_account
+							} else {
+								return val;
+							}
+						}),
+					})
+				);
+			}
+            setUpdate(prev=> prev+1)
+            toast.success("Wallet Deleted!", {
+                position: "bottom-right",
+                autoClose: 1500,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                theme: "dark",
+            });
+			setWallets(wallets)
+		}
+	}
+
+	return <WalletContext.Provider value={{ accounts, wallets, change_default_account, create_new_wallet, create_new_account, change_default_wallet, remove_wallet }}>{children}</WalletContext.Provider>;
 };
 
 export const useWalletContext = () => {
