@@ -73,8 +73,8 @@ const Header = () => {
 									<HiChevronDown />
 								</div>
 							</SheetTrigger>
-							<SheetContent side={"bottom"} className="h-screen overflow-y-scroll overflow-x-hidden">
-								<SheetHeader className="mt-10">
+							<SheetContent side={"bottom"} className="h-full overflow-y-scroll overflow-x-hidden">
+								<SheetHeader className="">
 									<SheetTitle>
 										<h1 className="text-2xl text-center">Wallets (Account {accounts.default_account + 1})</h1>
 									</SheetTitle>
