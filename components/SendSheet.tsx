@@ -42,7 +42,7 @@ const SendSheet = ({ children }: { children: React.ReactNode }) => {
 				</Select>
                 {
                     accounts && wallets && wallet_balance && (
-                        <>
+                        <div className="flex flex-col w-full justify-center items-center gap-2">
                             <span className="flex justify-center items-center rounded-full p-3 text-4xl bg-gray-800 font-bold h-20 w-20 mt-3">
                                 A{accounts.default_account+1}
                             </span>
@@ -79,7 +79,7 @@ const SendSheet = ({ children }: { children: React.ReactNode }) => {
                                     setLoading(false)
                                 }
                             }} disabled={typeof amount !== "number" || (blockchain==="sol" ? wallet_balance.sol_balance < amount : wallet_balance.eth_balance < amount) || to.trim().length===0 || loading} className="w-full p-3 max-w-sm absolute bottom-7 flex gap-2 justify-center items-center">{loading ? "Sending..." : blockchain==="sol" ? (wallet_balance.sol_balance < (amount||0) ? "Inefficient balance" : "Send") : (wallet_balance.eth_balance < (amount||0) ? "Inefficient balance" : "Send")}</Button>
-                        </>
+                        </div>
                     )
                 }
                 </div>
