@@ -1,14 +1,50 @@
-import { Keypair } from "@solana/web3.js";
+import { Keypair, Connection, Transaction, SystemProgram, PublicKey, sendAndConfirmTransaction } from "@solana/web3.js";
 import { mnemonicToSeedSync } from "bip39";
 import { derivePath } from "ed25519-hd-key";
 import nacl from "tweetnacl";
 import bs58 from "bs58"
-import { Wallet, HDNodeWallet } from "ethers";
+import { Wallet, HDNodeWallet, ethers } from "ethers";
 import { getEthDerivationPath, getSolDerivationPath } from "./utils";
 import axios from "axios"
 
-const sol_rpc_base_url = "https://solana-mainnet.g.alchemy.com/v2/y7kjH1FfrGOd2HitEahJeRxjxOPhU2z9";
-const eth_rpc_base_url = "https://eth-mainnet.g.alchemy.com/v2/y7kjH1FfrGOd2HitEahJeRxjxOPhU2z9"
+const sol_rpc_base_url = "https://solana-devnet.g.alchemy.com/v2/y7kjH1FfrGOd2HitEahJeRxjxOPhU2z9";
+const eth_rpc_base_url = "https://eth-sepolia.g.alchemy.com/v2/y7kjH1FfrGOd2HitEahJeRxjxOPhU2z9"
+
+const solana_connection = new Connection(
+  sol_rpc_base_url,
+  'confirmed',
+);
+
+
+export const send_sol_transaction = async (secretKey:string, to:string, lamports:number) => {
+  try {
+    const decoded_secret_key = bs58.decode(secretKey)
+    const from_key_pair = Keypair.fromSecretKey(decoded_secret_key);
+    const to_public_key = new PublicKey(bs58.decode(to))
+  
+    const transaction = new Transaction().add(
+      SystemProgram.transfer({
+        fromPubkey: from_key_pair.publicKey,
+        toPubkey: to_public_key,
+        lamports: lamports,
+      }),
+    );
+
+    console.log(transaction)
+  
+    const signature = await sendAndConfirmTransaction(
+      solana_connection,
+      transaction,
+      [from_key_pair],
+    );
+
+    console.log(signature)
+
+    return signature
+  } catch (error:any) {
+    console.log(error.message)
+  }
+}
 
 export const get_solana_wallet = (seed: Buffer, wallet_number: number) => {
   // "use server"
@@ -99,7 +135,7 @@ export const get_wallet_balance = async ({sol_public_key, eth_public_key}:{sol_p
       }, {responseType:"json"});
       const data:EthApiResponse = response.data;
       if(typeof data.result === "string") {
-        eth_balance = (parseInt(data.result.slice(2))) / (10**18)
+        eth_balance = (parseInt(data.result)) / (10**18)
       }
     }
 

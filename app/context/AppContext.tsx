@@ -129,6 +129,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 				})
 			);
             setUpdate(prev=> prev+1)
+			set_wallet_balance(null)
             toast.success("New Wallet Created!", {
                 position: "bottom-right",
                 autoClose: 1500,
@@ -146,6 +147,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 			localStorage.clear();
 			localStorage.setItem("accounts", JSON.stringify({ ...accounts, default_account: index }));
             setUpdate(prev=>prev+1)
+			set_wallet_balance(null)
             toast.info("Default account changed!", {
                 position: "bottom-right",
                 autoClose: 1500,
@@ -169,6 +171,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
                 }
             }), }));
             setUpdate(prev=>prev+1)
+			set_wallet_balance(null)
             toast.info("Default wallet changed!", {
                 position: "bottom-right",
                 autoClose: 1500,
@@ -209,6 +212,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 			}
 		}
         setUpdate(prev=>prev+1)
+		set_wallet_balance(null)
         toast.success("New account created!", {
             position: "bottom-right",
             autoClose: 1500,
@@ -254,6 +258,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 				);
 			}
             setUpdate(prev=> prev+1)
+			set_wallet_balance(null)
             toast.success("Wallet Deleted!", {
                 position: "bottom-right",
                 autoClose: 1500,

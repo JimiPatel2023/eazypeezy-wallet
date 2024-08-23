@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { generateMnemonic } from "bip39";
+import { PublicKey } from "@solana/web3.js";
 
 
 export function cn(...inputs: ClassValue[]) {
@@ -35,5 +36,14 @@ export const format_public_key = (public_key:string) => {
     return `${public_key.slice(0, 6)}...${public_key.slice(-4)}`
   } else {
     return `${public_key.slice(0, 4)}...${public_key.slice(-4)}`
+  }
+}
+
+export const is_sol_public_key_valid = async (public_key:string) => {
+  try {
+    new PublicKey(public_key)
+    return true
+  } catch (error) {
+    return false
   }
 }
