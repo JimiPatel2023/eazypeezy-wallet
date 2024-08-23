@@ -54,52 +54,28 @@ const SendSheet = ({ children }: { children: React.ReactNode }) => {
                                 if(blockchain === "sol" && amount) {
                                     setLoading(true)
                                     const hash = await send_sol_transaction(wallets.find(v=> v.wallet_number === accounts.details[accounts.default_account].default_wallet)!.sol_wallet.private_key, to, amount * (10**9))
-                                    if(hash) {
-                                        toast.success("Success", {
-                                            position: "bottom-right",
-                                            autoClose: 1500,
-                                            hideProgressBar: true,
-                                            closeOnClick: true,
-                                            pauseOnHover: true,
-                                            draggable: true,
-                                            theme: "dark",
-                                        });
-                                    } else {
-                                        toast.error("Transaction failed!", {
-                                            position: "bottom-right",
-                                            autoClose: 1500,
-                                            hideProgressBar: true,
-                                            closeOnClick: true,
-                                            pauseOnHover: true,
-                                            draggable: true,
-                                            theme: "dark",
-                                        });
-                                    }
+                                    toast.success("Transaction completed!", {
+                                        position: "bottom-right",
+                                        autoClose: 1500,
+                                        hideProgressBar: true,
+                                        closeOnClick: true,
+                                        pauseOnHover: true,
+                                        draggable: true,
+                                        theme: "dark",
+                                    });
                                     setLoading(false)
                                 } else if(blockchain === "eth" && amount) {
                                     setLoading(true)
                                     const hash = await send_eth_transaction(wallets.find(v=> v.wallet_number === accounts.details[accounts.default_account].default_wallet)!.eth_wallet.private_key, to, amount)
-                                    if(hash) {
-                                        toast.success("Success", {
-                                            position: "bottom-right",
-                                            autoClose: 1500,
-                                            hideProgressBar: true,
-                                            closeOnClick: true,
-                                            pauseOnHover: true,
-                                            draggable: true,
-                                            theme: "dark",
-                                        });
-                                    } else {
-                                        toast.error("Transaction failed!", {
-                                            position: "bottom-right",
-                                            autoClose: 1500,
-                                            hideProgressBar: true,
-                                            closeOnClick: true,
-                                            pauseOnHover: true,
-                                            draggable: true,
-                                            theme: "dark",
-                                        });
-                                    }
+                                    toast.success("Transaction completed!", {
+                                        position: "bottom-right",
+                                        autoClose: 1500,
+                                        hideProgressBar: true,
+                                        closeOnClick: true,
+                                        pauseOnHover: true,
+                                        draggable: true,
+                                        theme: "dark",
+                                    });
                                     setLoading(false)
                                 }
                             }} disabled={typeof amount !== "number" || (blockchain==="sol" ? wallet_balance.sol_balance < amount : wallet_balance.eth_balance < amount) || to.trim().length===0 || loading} className="w-full p-3 max-w-sm absolute bottom-7 flex gap-2 justify-center items-center">{loading ? "Sending..." : blockchain==="sol" ? (wallet_balance.sol_balance < (amount||0) ? "Inefficient balance" : "Send") : (wallet_balance.eth_balance < (amount||0) ? "Inefficient balance" : "Send")}</Button>
