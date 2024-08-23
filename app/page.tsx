@@ -5,6 +5,7 @@ import { useWalletContext } from "./context/AppContext";
 import { Oval } from "react-loader-spinner";
 import { SiEthereum, SiSolana } from "react-icons/si";
 import SendSheet from "@/components/SendSheet";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
 	const button_data = [
@@ -95,6 +96,7 @@ export default function Home() {
 							<p className="text-gray-400">$0.00</p>
 						</div>
 					</div>
+					<h1 className="w-full p-3 max-w-sm absolute bottom-7 flex gap-2 justify-center items-center">Cohort Project by @Jimmy</h1>
 				</div>
 			}
 		</div>
